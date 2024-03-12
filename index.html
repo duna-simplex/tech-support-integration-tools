@@ -10,22 +10,22 @@
   <div class="container">
     <h1>Affiliates Currency Manager</h1>
     <div class="options-row">
-      <input type="checkbox" id="removeChecked" checked onchange="toggleInputFields()">
+      <input type="checkbox" id="removeChecked" onchange="toggleInputFields()">
       <label class="option-label" for="removeChecked">Remove Currencies</label>
-      <input type="checkbox" id="addChecked" checked onchange="toggleInputFields()">
+      <input type="checkbox" id="addChecked" onchange="toggleInputFields()">
       <label class="option-label" for="addChecked">Add Currencies</label>
     </div>
     <form onsubmit="handleSubmit(event)">
       <label for="affiliates">Affiliates (JSON):</label><br>
       <textarea id="affiliates" rows="10" cols="50"></textarea><br>
       <label for="currenciesToRemove">Currencies to Remove (JSON Array):</label><br>
-      <textarea id="currenciesToRemove" rows="3" cols="50"></textarea><br>
+      <textarea id="currenciesToRemove" rows="3" cols="50" disabled></textarea><br>
       <label for="currenciesToAdd">Currencies to Add (JSON Array):</label><br>
-      <textarea id="currenciesToAdd" rows="3" cols="50"></textarea><br><br>
-      <input type="submit" value="Update Currencies">
+      <textarea id="currenciesToAdd" rows="3" cols="50" disabled></textarea><br><br>
+      <input type="submit" value="Update Currencies" disabled>
     </form>
     <h2>Result:</h2>
-    <button onclick="copyResult()">Copy Result</button>
+    <button onclick="copyResult()" disabled>Copy Result</button>
     <pre id="result"></pre>
   </div>
 
