@@ -66,6 +66,4 @@ function toggleInputFields() {
 }
 
 // Initialize input fields and "Update Currencies" button state
-window.addEventListener('DOMContentLoaded', () => {
-  toggleInputFields();
-});
+toggleInputFields();
