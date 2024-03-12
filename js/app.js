@@ -60,10 +60,16 @@ function copyResult() {
 function toggleInputFields() {
   const removeChecked = document.getElementById('removeChecked').checked;
   const addChecked = document.getElementById('addChecked').checked;
-  document.getElementById('currenciesToRemove').disabled = !removeChecked;
-  document.getElementById('currenciesToAdd').disabled = !addChecked;
-  document.getElementById('updateCurrencies').disabled = !(removeChecked || addChecked);
+  const currenciesToRemove = document.getElementById('currenciesToRemove');
+  const currenciesToAdd = document.getElementById('currenciesToAdd');
+  const updateCurrenciesButton = document.getElementById('updateCurrencies');
+
+  if (currenciesToRemove && currenciesToAdd && updateCurrenciesButton) {
+    currenciesToRemove.disabled = !removeChecked;
+    currenciesToAdd.disabled = !addChecked;
+    updateCurrenciesButton.disabled = !(removeChecked || addChecked);
+  }
 }
 
 // Initialize input fields and "Update Currencies" button state
-toggleInputFields();
+document.addEventListener('DOMContentLoaded', toggleInputFields);
