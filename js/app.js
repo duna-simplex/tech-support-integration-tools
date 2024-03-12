@@ -38,8 +38,10 @@ function handleSubmit(event) {
     }
 
     document.getElementById('result').textContent = JSON.stringify(affiliates, null, 2);
+    document.getElementById('copyResult').disabled = false;
   } catch (e) {
     document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
+    document.getElementById('copyResult').disabled = true;
   }
 }
 
@@ -60,7 +62,10 @@ function toggleInputFields() {
   const addChecked = document.getElementById('addChecked').checked;
   document.getElementById('currenciesToRemove').disabled = !removeChecked;
   document.getElementById('currenciesToAdd').disabled = !addChecked;
+  document.getElementById('updateCurrencies').disabled = !(removeChecked || addChecked);
 }
 
-// Initialize input fields based on checkbox state
-toggleInputFields();
+// Initialize input fields and "Update Currencies" button state
+window.addEventListener('DOMContentLoaded', () => {
+  toggleInputFields();
+});
