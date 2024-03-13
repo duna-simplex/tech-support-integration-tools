@@ -86,8 +86,8 @@
       <label class="option-label" for="addChecked">Add Currencies</label>
     </div>
     <form onsubmit="handleSubmit(event)">
-      <label for="affiliates">Affiliates (JSON):</label><br>
-      <textarea id="affiliates" rows="10" cols="50"></textarea><br>
+      <label for="lpInput">LP (JSON):</label><br>
+      <textarea id="lpInput" rows="10" cols="50"></textarea><br>
       <label for="currenciesToRemove">Currencies to Remove (JSON Array):</label><br>
       <textarea id="currenciesToRemove" rows="3" cols="50" disabled></textarea><br>
       <label for="currenciesToAdd">Currencies to Add (JSON Array):</label><br>
@@ -101,36 +101,37 @@
 
   <script>
     // Function to remove specified currencies
-    const removeCurrencies = (data, currencies) => {
-      Object.keys(data).forEach(key => {
-        if (data[key].hasOwnProperty('supported_digital_currencies')) {
-          data[key].supported_digital_currencies = data[key].supported_digital_currencies.filter(currency => !currencies.includes(currency));
+    const removeCurrencies = (affiliates, currencies) => {
+      Object.keys(affiliates).forEach(key => {
+        if (affiliates[key].hasOwnProperty('supported_digital_currencies')) {
+          affiliates[key].supported_digital_currencies = affiliates[key].supported_digital_currencies.filter(currency => !currencies.includes(currency));
         }
       });
-      return data;
+      return affiliates;
     };
 
     // Function to add specified currencies
-    const addCurrencies = (data, currencies) => {
-      Object.keys(data).forEach(key => {
-        if (data[key].hasOwnProperty('supported_digital_currencies')) {
-          const existingCurrencies = new Set(data[key].supported_digital_currencies);
+    const addCurrencies = (affiliates, currencies) => {
+      Object.keys(affiliates).forEach(key => {
+        if (affiliates[key].hasOwnProperty('supported_digital_currencies')) {
+          const existingCurrencies = new Set(affiliates[key].supported_digital_currencies);
           currencies.forEach(currency => existingCurrencies.add(currency));
-          data[key].supported_digital_currencies = Array.from(existingCurrencies);
+          affiliates[key].supported_digital_currencies = Array.from(existingCurrencies);
         }
       });
-      return data;
+      return affiliates;
     };
 
     // Function to handle form submission
     function handleSubmit(event) {
       event.preventDefault();
-      const affiliatesInput = document.getElementById('affiliates').value;
+      const lpInput = document.getElementById('lpInput').value;
       const removeChecked = document.getElementById('removeChecked').checked;
       const addChecked = document.getElementById('addChecked').checked;
 
       try {
-        let affiliates = JSON.parse(affiliatesInput);
+        const lp = JSON.parse(lpInput);
+        let affiliates = lp.affiliates;
         const currenciesToRemove = removeChecked ? JSON.parse(document.getElementById('currenciesToRemove').value) : [];
         const currenciesToAdd = addChecked ? JSON.parse(document.getElementById('currenciesToAdd').value) : [];
 
@@ -141,7 +142,8 @@
           affiliates = addCurrencies(affiliates, currenciesToAdd);
         }
 
-        document.getElementById('result').textContent = JSON.stringify(affiliates, null, 2);
+        lp.affiliates = affiliates;
+        document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
         document.getElementById('copyResult').disabled = false;
       } catch (e) {
         document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
