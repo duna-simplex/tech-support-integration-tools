@@ -16,12 +16,13 @@ h1, h2, h3 {
 .container {
   width: 90%;
   max-width: 800px;
-  background: linear-gradient(135deg, #003366 0%, #CC99FF 100%);
+  background-color: #CC99FF; /* Softer lilac for background */
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
+
 
 .container:hover {
   transform: scale(1.02);
