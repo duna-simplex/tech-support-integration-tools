@@ -133,14 +133,22 @@
       </div>
       <label for="lpInput">LP (JSON):</label><br>
       <textarea id="lpInput" rows="10" cols="50"></textarea><br>
-      <label for="currenciesToRemove">Currencies to Remove (JSON Array):</label><br>
-      <textarea id="currenciesToRemove" rows="3" cols="50" disabled></textarea><br>
-      <label for="currenciesToAdd">Currencies to Add (JSON Array):</label><br>
-      <textarea id="currenciesToAdd" rows="3" cols="50" disabled></textarea><br>
-      <label for="countriesToAdd">Countries to Add (JSON Array):</label><br>
-      <textarea id="countriesToAdd" rows="3" cols="50" disabled></textarea><br><br>
-      <label for="countriesToRemove">Countries to Remove (JSON Array):</label><br>
-      <textarea id="countriesToRemove" rows="3" cols="50" disabled></textarea><br><br>
+      <div id="currenciesToRemoveContainer">
+        <label for="currenciesToRemove">Currencies to Remove (JSON Array):</label><br>
+        <textarea id="currenciesToRemove" rows="3" cols="50" disabled></textarea><br><br>
+      </div>
+      <div id="currenciesToAddContainer">
+        <label for="currenciesToAdd">Currencies to Add (JSON Array):</label><br>
+        <textarea id="currenciesToAdd" rows="3" cols="50" disabled></textarea><br><br>
+      </div>
+      <div id="countriesToAddContainer">
+        <label for="countriesToAdd">Countries to Add (JSON Array):</label><br>
+        <textarea id="countriesToAdd" rows="3" cols="50" disabled></textarea><br><br>
+      </div>
+      <div id="countriesToRemoveContainer">
+        <label for="countriesToRemove">Countries to Remove (JSON Array):</label><br>
+        <textarea id="countriesToRemove" rows="3" cols="50" disabled></textarea><br><br>
+      </div>
       <input type="submit" value="Update Affiliates" id="updateAffiliates" disabled>
     </form>
     <h2>Result:</h2>
@@ -150,20 +158,19 @@
 
   <div id="howToUseModal" class="modal">
     <div class="modal-content">
-  <span class="close">&times;</span>
-  <h3>Overview</h3>
-  <p>The Affiliates Currency Manager is a tool for managing the supported digital currencies and countries for affiliates. It allows for the addition or removal of currencies and the addition of supported countries based on affiliate names.</p>
-
-  <h3>Usage Instructions</h3>
-  <ol>
-    <li><strong>Affiliates:</strong> List the affiliates to update, separated by commas. Leave blank to apply changes to all affiliates.</li>
-    <li><strong>LP Data:</strong> Input the JSON object containing affiliate data in the LP (JSON) field.</li>
-    <li><strong>Currency Modifications:</strong> To modify currencies, check the appropriate box and enter the currencies as a JSON array.</li>
-    <li><strong>Country Additions:</strong> To add countries, check the "Add Supported Countries" box and provide the countries as a JSON array.</li>
-    <li><strong>Submit:</strong> Click "Update Affiliates" to apply changes. The result will be displayed in the Result section.</li>
-    <li><strong>Copy Result:</strong> Use the "Copy Result" button to copy the updated LP data.</li>
-  </ol>
-</div>
+      <span class="close">&times;</span>
+      <h3>How to Use</h3>
+      <p>The LP Affiliates Manager is a tool for managing the supported digital currencies and countries for affiliates. It allows for the addition or removal of currencies and the addition of supported countries based on affiliate names.</p>
+      <h3>Usage Instructions</h3>
+      <ol>
+        <li><strong>Affiliates:</strong> List the affiliates to update, separated by commas. Leave blank to apply changes to all affiliates.</li>
+        <li><strong>LP Data:</strong> Input the JSON object containing affiliate data in the LP (JSON) field.</li>
+        <li><strong>Currency Modifications:</strong> To modify currencies, check the appropriate box and enter the currencies as a JSON array.</li>
+        <li><strong>Country Additions:</strong> To add countries, check the "Add Supported Countries" box and provide the countries as a JSON array.</li>
+        <li><strong>Submit:</strong> Click "Update Affiliates" to apply changes. The result will be displayed in the Result section.</li>
+        <li><strong>Copy Result:</strong> Use the "Copy Result" button to copy the updated LP data.</li>
+      </ol>
+    </div>
   </div>
 
   <script>
@@ -208,55 +215,53 @@
     };
 
     // Function to remove specified countries from supported countries
-const removeCountries = (affiliate, countries) => {
-  if (affiliate.hasOwnProperty('supported_countries') && JSON.stringify(affiliate.supported_countries) !== JSON.stringify(["base_countries"])) {
-    affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country));
-  }
-  return affiliate;
-};
+    const removeCountries = (affiliate, countries) => {
+      if (affiliate.hasOwnProperty('supported_countries') && JSON.stringify(affiliate.supported_countries) !== JSON.stringify(["base_countries"])) {
+        affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country));
+      }
+      return affiliate;
+    };
 
-
-
+    // Function to handle form submission
     function handleSubmit(event) {
-  event.preventDefault();
-  const lpInput = document.getElementById('lpInput').value;
-  const affiliatesInput = document.getElementById('affiliates').value;
-  const removeChecked = document.getElementById('removeChecked').checked;
-  const addChecked = document.getElementById('addChecked').checked;
-  const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
-  const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
+      event.preventDefault();
+      const lpInput = document.getElementById('lpInput').value;
+      const affiliatesInput = document.getElementById('affiliates').value;
+      const removeChecked = document.getElementById('removeChecked').checked;
+      const addChecked = document.getElementById('addChecked').checked;
+      const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
+      const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
 
-  try {
-    const lp = JSON.parse(lpInput);
-    let affiliates = lp.affiliates;
-    const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
-    const currenciesToRemove = removeChecked ? JSON.parse(document.getElementById('currenciesToRemove').value) : [];
-    const currenciesToAdd = addChecked ? JSON.parse(document.getElementById('currenciesToAdd').value) : [];
-    const countriesToAdd = addCountriesChecked ? JSON.parse(document.getElementById('countriesToAdd').value) : [];
-    const countriesToRemove = removeCountriesChecked ? JSON.parse(document.getElementById('countriesToRemove').value) : [];
+      try {
+        const lp = JSON.parse(lpInput);
+        let affiliates = lp.affiliates;
+        const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
+        const currenciesToRemove = removeChecked ? JSON.parse(document.getElementById('currenciesToRemove').value) : [];
+        const currenciesToAdd = addChecked ? JSON.parse(document.getElementById('currenciesToAdd').value) : [];
+        const countriesToAdd = addCountriesChecked ? JSON.parse(document.getElementById('countriesToAdd').value) : [];
+        const countriesToRemove = removeCountriesChecked ? JSON.parse(document.getElementById('countriesToRemove').value) : [];
 
-    if (removeChecked) {
-      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCurrencies(affiliate, currenciesToRemove));
-    }
-    if (addChecked) {
-      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCurrencies(affiliate, currenciesToAdd));
-    }
-    if (addCountriesChecked) {
-      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCountries(affiliate, countriesToAdd));
-    }
-    if (removeCountriesChecked) {
-      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCountries(affiliate, countriesToRemove));
-    }
+        if (removeChecked) {
+          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCurrencies(affiliate, currenciesToRemove));
+        }
+        if (addChecked) {
+          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCurrencies(affiliate, currenciesToAdd));
+        }
+        if (addCountriesChecked) {
+          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCountries(affiliate, countriesToAdd));
+        }
+        if (removeCountriesChecked) {
+          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCountries(affiliate, countriesToRemove));
+        }
 
-    lp.affiliates = affiliates;
-    document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
-    document.getElementById('copyResult').disabled = false;
-  } catch (e) {
-    document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
-    document.getElementById('copyResult').disabled = true;
-  }
-}
-
+        lp.affiliates = affiliates;
+        document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
+        document.getElementById('copyResult').disabled = false;
+      } catch (e) {
+        document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
+        document.getElementById('copyResult').disabled = true;
+      }
+    }
 
     // Function to copy result text to clipboard
     function copyResult() {
@@ -275,19 +280,25 @@ const removeCountries = (affiliate, countries) => {
   const addChecked = document.getElementById('addChecked').checked;
   const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
   const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
-  const currenciesToRemove = document.getElementById('currenciesToRemove');
-  const currenciesToAdd = document.getElementById('currenciesToAdd');
-  const countriesToAdd = document.getElementById('countriesToAdd');
-  const countriesToRemove = document.getElementById('countriesToRemove');
+  const currenciesToRemoveContainer = document.getElementById('currenciesToRemoveContainer');
+  const currenciesToAddContainer = document.getElementById('currenciesToAddContainer');
+  const countriesToAddContainer = document.getElementById('countriesToAddContainer');
+  const countriesToRemoveContainer = document.getElementById('countriesToRemoveContainer');
   const updateAffiliatesButton = document.getElementById('updateAffiliates');
 
-  if (currenciesToRemove && currenciesToAdd && countriesToAdd && countriesToRemove && updateAffiliatesButton) {
-    currenciesToRemove.disabled = !removeChecked;
-    currenciesToAdd.disabled = !addChecked;
-    countriesToAdd.disabled = !addCountriesChecked;
-    countriesToRemove.disabled = !removeCountriesChecked;
-    updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked);
-  }
+  currenciesToRemoveContainer.style.display = removeChecked ? "block" : "none";
+  document.getElementById('currenciesToRemove').disabled = !removeChecked;
+
+  currenciesToAddContainer.style.display = addChecked ? "block" : "none";
+  document.getElementById('currenciesToAdd').disabled = !addChecked;
+
+  countriesToAddContainer.style.display = addCountriesChecked ? "block" : "none";
+  document.getElementById('countriesToAdd').disabled = !addCountriesChecked;
+
+  countriesToRemoveContainer.style.display = removeCountriesChecked ? "block" : "none";
+  document.getElementById('countriesToRemove').disabled = !removeCountriesChecked;
+
+  updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked);
 }
 
 
