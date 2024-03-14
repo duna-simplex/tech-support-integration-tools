@@ -160,17 +160,20 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h3>How to Use</h3>
-      <p>The LP Affiliates Manager is a tool for managing the supported digital currencies and countries for affiliates. It allows for the addition or removal of currencies and the addition of supported countries based on affiliate names.</p>
+      <p>The LP Affiliates Manager is a tool for managing the supported digital currencies and countries for affiliates. It allows for the addition or removal of currencies and countries based on affiliate names.</p>
       <h3>Usage Instructions</h3>
       <ol>
-        <li><strong>Affiliates:</strong> List the affiliates to update, separated by commas. Leave blank to apply changes to all affiliates.</li>
-        <li><strong>LP Data:</strong> Input the JSON object containing affiliate data in the LP (JSON) field.</li>
-        <li><strong>Currency Modifications:</strong> To modify currencies, check the appropriate box and enter the currencies as a JSON array.</li>
-        <li><strong>Country Additions:</strong> To add countries, check the "Add Supported Countries" box and provide the countries as a JSON array.</li>
+        <li><strong>Affiliates:</strong> List the affiliates to update, separated by commas. Leave blank to apply changes to all affiliates.<br><em>Example: affiliate1, affiliate2</em></li>
+        <li><strong>LP Data:</strong> Input the JSON object containing affiliate data in the LP (JSON) field.<br><em>Example: {"affiliates": {"affiliate1": {"supported_digital_currencies": ["BTC", "ETH"], "supported_countries": ["US", "CA"]}}}</em></li>
+        <li><strong>Remove Currencies:</strong> To remove currencies, check the box and enter the currencies as a JSON array.<br><em>Example: ["BTC", "ETH"]</em></li>
+        <li><strong>Add Currencies:</strong> To add currencies, check the box and enter the currencies as a JSON array.<br><em>Example: ["XRP", "LTC"]</em></li>
+        <li><strong>Add Supported Countries:</strong> To add countries, check the box and provide the countries as a JSON array.<br><em>Example: ["DE", "FR"]</em></li>
+        <li><strong>Remove Supported Countries:</strong> To remove countries, check the box and provide the countries as a JSON array. If the supported_countries field is missing or equals ["base_countries"], no changes will be made.<br><em>Example: ["US", "CA"]</em></li>
         <li><strong>Submit:</strong> Click "Update Affiliates" to apply changes. The result will be displayed in the Result section.</li>
         <li><strong>Copy Result:</strong> Use the "Copy Result" button to copy the updated LP data.</li>
       </ol>
     </div>
+    
   </div>
 
   <script>
