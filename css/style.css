@@ -22,7 +22,7 @@ h1, h2, h3 {
 .container {
   width: 90%;
   max-width: 800px;
-  background: radial-gradient(circle at center, #A680C8 0%, #CC99FF 100%);
+  background: radial-gradient(circle at center, #A680C8 20%, #CC99FF 80%);
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
