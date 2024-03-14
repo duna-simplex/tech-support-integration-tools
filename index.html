@@ -128,6 +128,8 @@
         <label class="option-label" for="addChecked">Add Currencies</label>
         <input type="checkbox" id="addCountriesChecked" onchange="toggleInputFields()">
         <label class="option-label" for="addCountriesChecked">Add Supported Countries</label>
+        <input type="checkbox" id="removeCountriesChecked" onchange="toggleInputFields()">
+        <label class="option-label" for="removeCountriesChecked">Remove Supported Countries</label>
       </div>
       <label for="lpInput">LP (JSON):</label><br>
       <textarea id="lpInput" rows="10" cols="50"></textarea><br>
@@ -137,6 +139,8 @@
       <textarea id="currenciesToAdd" rows="3" cols="50" disabled></textarea><br>
       <label for="countriesToAdd">Countries to Add (JSON Array):</label><br>
       <textarea id="countriesToAdd" rows="3" cols="50" disabled></textarea><br><br>
+      <label for="countriesToRemove">Countries to Remove (JSON Array):</label><br>
+      <textarea id="countriesToRemove" rows="3" cols="50" disabled></textarea><br><br>
       <input type="submit" value="Update Affiliates" id="updateAffiliates" disabled>
     </form>
     <h2>Result:</h2>
@@ -203,41 +207,56 @@
       return affiliate;
     };
 
-    // Function to handle form submission
+    // Function to remove specified countries from supported countries
+const removeCountries = (affiliate, countries) => {
+  if (affiliate.hasOwnProperty('supported_countries') && JSON.stringify(affiliate.supported_countries) !== JSON.stringify(["base_countries"])) {
+    affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country));
+  }
+  return affiliate;
+};
+
+
+
     function handleSubmit(event) {
-      event.preventDefault();
-      const lpInput = document.getElementById('lpInput').value;
-      const affiliatesInput = document.getElementById('affiliates').value;
-      const removeChecked = document.getElementById('removeChecked').checked;
-      const addChecked = document.getElementById('addChecked').checked;
-      const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
+  event.preventDefault();
+  const lpInput = document.getElementById('lpInput').value;
+  const affiliatesInput = document.getElementById('affiliates').value;
+  const removeChecked = document.getElementById('removeChecked').checked;
+  const addChecked = document.getElementById('addChecked').checked;
+  const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
+  const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
 
-      try {
-        const lp = JSON.parse(lpInput);
-        let affiliates = lp.affiliates;
-        const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
-        const currenciesToRemove = removeChecked ? JSON.parse(document.getElementById('currenciesToRemove').value) : [];
-        const currenciesToAdd = addChecked ? JSON.parse(document.getElementById('currenciesToAdd').value) : [];
-        const countriesToAdd = addCountriesChecked ? JSON.parse(document.getElementById('countriesToAdd').value) : [];
+  try {
+    const lp = JSON.parse(lpInput);
+    let affiliates = lp.affiliates;
+    const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
+    const currenciesToRemove = removeChecked ? JSON.parse(document.getElementById('currenciesToRemove').value) : [];
+    const currenciesToAdd = addChecked ? JSON.parse(document.getElementById('currenciesToAdd').value) : [];
+    const countriesToAdd = addCountriesChecked ? JSON.parse(document.getElementById('countriesToAdd').value) : [];
+    const countriesToRemove = removeCountriesChecked ? JSON.parse(document.getElementById('countriesToRemove').value) : [];
 
-        if (removeChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCurrencies(affiliate, currenciesToRemove));
-        }
-        if (addChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCurrencies(affiliate, currenciesToAdd));
-        }
-        if (addCountriesChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCountries(affiliate, countriesToAdd));
-        }
-
-        lp.affiliates = affiliates;
-        document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
-        document.getElementById('copyResult').disabled = false;
-      } catch (e) {
-        document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
-        document.getElementById('copyResult').disabled = true;
-      }
+    if (removeChecked) {
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCurrencies(affiliate, currenciesToRemove));
     }
+    if (addChecked) {
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCurrencies(affiliate, currenciesToAdd));
+    }
+    if (addCountriesChecked) {
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCountries(affiliate, countriesToAdd));
+    }
+    if (removeCountriesChecked) {
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCountries(affiliate, countriesToRemove));
+    }
+
+    lp.affiliates = affiliates;
+    document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
+    document.getElementById('copyResult').disabled = false;
+  } catch (e) {
+    document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
+    document.getElementById('copyResult').disabled = true;
+  }
+}
+
 
     // Function to copy result text to clipboard
     function copyResult() {
@@ -252,21 +271,25 @@
 
     // Function to toggle input fields based on checkbox state
     function toggleInputFields() {
-      const removeChecked = document.getElementById('removeChecked').checked;
-      const addChecked = document.getElementById('addChecked').checked;
-      const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
-      const currenciesToRemove = document.getElementById('currenciesToRemove');
-      const currenciesToAdd = document.getElementById('currenciesToAdd');
-      const countriesToAdd = document.getElementById('countriesToAdd');
-      const updateAffiliatesButton = document.getElementById('updateAffiliates');
+  const removeChecked = document.getElementById('removeChecked').checked;
+  const addChecked = document.getElementById('addChecked').checked;
+  const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
+  const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
+  const currenciesToRemove = document.getElementById('currenciesToRemove');
+  const currenciesToAdd = document.getElementById('currenciesToAdd');
+  const countriesToAdd = document.getElementById('countriesToAdd');
+  const countriesToRemove = document.getElementById('countriesToRemove');
+  const updateAffiliatesButton = document.getElementById('updateAffiliates');
 
-      if (currenciesToRemove && currenciesToAdd && countriesToAdd && updateAffiliatesButton) {
-        currenciesToRemove.disabled = !removeChecked;
-        currenciesToAdd.disabled = !addChecked;
-        countriesToAdd.disabled = !addCountriesChecked;
-        updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked);
-      }
-    }
+  if (currenciesToRemove && currenciesToAdd && countriesToAdd && countriesToRemove && updateAffiliatesButton) {
+    currenciesToRemove.disabled = !removeChecked;
+    currenciesToAdd.disabled = !addChecked;
+    countriesToAdd.disabled = !addCountriesChecked;
+    countriesToRemove.disabled = !removeCountriesChecked;
+    updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked);
+  }
+}
+
 
     // Initialize input fields and "Update Affiliates" button state
     toggleInputFields();
