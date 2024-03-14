@@ -13,10 +13,16 @@ h1, h2, h3 {
   color: #660033; /* Dark maroon for text and headings */
 }
 
+/* Label text color */
+.option-label, label {
+  color: #E6E6E6; /* Soft white/grey */
+}
+
+/* Container background with darker shade and subtle gradient */
 .container {
   width: 90%;
   max-width: 800px;
-  background-color: #CC99FF; /* Softer lilac for background */
+  background: radial-gradient(circle at center, #A680C8 0%, #CC99FF 100%);
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
