@@ -4,149 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LP Affiliates Manager</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    
-    h1, h2 {
-      text-align: center;
-      color: #333;
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .options-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .option-label {
-      margin-right: 20px;
-      font-weight: bold;
-    }
-    
-    textarea, input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      font-family: Consolas, monospace;
-    }
-
-    textarea {
-      height: 150px;
-      resize: vertical;
-    }
-    
-    button, input[type="submit"] {
-      display: block;
-      margin: 20px auto 0;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    
-    button:hover, input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-    
-    #result {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      background-color: #f9f9f9;
-      font-family: Consolas, monospace;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0,0,0);
-      background-color: rgba(0,0,0,0.4);
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="container">
+    <button class="how-to-use-btn" id="howToUseBtn">?</button>
     <h1>LP Affiliates Manager</h1>
-    <button id="howToUseBtn">How to Use</button>
     <form onsubmit="handleSubmit(event)">
-      
+      <div class="options-title">Options:</div>
       <div class="options-row">
-        <input type="checkbox" id="removeChecked" onchange="toggleInputFields()">
-        <label class="option-label" for="removeChecked">Remove Currencies</label>
-        <input type="checkbox" id="addChecked" onchange="toggleInputFields()">
-        <label class="option-label" for="addChecked">Add Currencies</label>
-        <input type="checkbox" id="addCountriesChecked" onchange="toggleInputFields()">
-        <label class="option-label" for="addCountriesChecked">Add Supported Countries</label>
-        <input type="checkbox" id="removeCountriesChecked" onchange="toggleInputFields()">
-        <label class="option-label" for="removeCountriesChecked">Remove Supported Countries</label>
+        <div class="checkbox-container">
+          <input type="checkbox" id="removeChecked" onchange="toggleInputFields()">
+          <label class="option-label" for="removeChecked">Remove Currencies</label>
+        </div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="addChecked" onchange="toggleInputFields()">
+          <label class="option-label" for="addChecked">Add Currencies</label>
+        </div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="addCountriesChecked" onchange="toggleInputFields()">
+          <label class="option-label" for="addCountriesChecked">Add Supported Countries</label>
+        </div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="removeCountriesChecked" onchange="toggleInputFields()">
+          <label class="option-label" for="removeCountriesChecked">Remove Supported Countries</label>
+        </div>
       </div>
-      <label for="affiliates">Affiliates (comma separated):</label><br>
-      <input type="text" id="affiliates"><br><br>
+      <div class="options-row">
+        <label class="option-label" for="affiliates">Affiliates (comma separated):</label><br>
+        <input type="text" id="affiliates"><br><br>
+      </div>
       <label for="lpInput">LP (JSON):</label><br>
       <textarea id="lpInput" rows="10" cols="50"></textarea><br>
-      <div id="currenciesToRemoveContainer">
+      <div id="currenciesToRemoveContainer" style="display:none;">
         <label for="currenciesToRemove">Currencies to Remove (JSON Array):</label><br>
         <textarea id="currenciesToRemove" rows="3" cols="50" disabled></textarea><br><br>
       </div>
-      <div id="currenciesToAddContainer">
+      <div id="currenciesToAddContainer" style="display:none;">
         <label for="currenciesToAdd">Currencies to Add (JSON Array):</label><br>
         <textarea id="currenciesToAdd" rows="3" cols="50" disabled></textarea><br><br>
       </div>
-      <div id="countriesToAddContainer">
+      <div id="countriesToAddContainer" style="display:none;">
         <label for="countriesToAdd">Countries to Add (JSON Array):</label><br>
         <textarea id="countriesToAdd" rows="3" cols="50" disabled></textarea><br><br>
       </div>
-      <div id="countriesToRemoveContainer">
+      <div id="countriesToRemoveContainer" style="display:none;">
         <label for="countriesToRemove">Countries to Remove (JSON Array):</label><br>
         <textarea id="countriesToRemove" rows="3" cols="50" disabled></textarea><br><br>
       </div>
@@ -164,171 +67,18 @@
       <p>The LP Affiliates Manager is a tool for managing the supported digital currencies and countries for affiliates. It allows for the addition or removal of currencies and countries based on affiliate names.</p>
       <h3>Usage Instructions</h3>
       <ol>
-        <li><strong>Affiliates:</strong> List the affiliates to update, separated by commas. Leave blank to apply changes to all affiliates.<br><br><em>Example: affiliate1, affiliate2</em><br><br></li>
-        <li><strong>LP Data:</strong> Input the JSON object containing affiliate data in the LP (JSON) field.<br><br><em>Example: <code>{"affiliates": {"affiliate1": {"supported_digital_currencies": ["BTC", "ETH"], "supported_countries": ["US", "CA"]}}}</code></em><br><br></li>
-        <li><strong>Remove Currencies:</strong> To remove currencies, check the box and enter the currencies as a JSON array.<br><br><em>Example: <code>["BTC", "ETH"]</code></em><br><br></li>
-        <li><strong>Add Currencies:</strong> To add currencies, check the box and enter the currencies as a JSON array.<br><br><em>Example: <code>["XRP", "LTC"]</code></em><br><br></li>
-        <li><strong>Add Supported Countries:</strong> To add countries, check the box and provide the countries as a JSON array.<br><br><em>Example: <code>["DE", "FR"]</code></em><br><br></li>
-        <li><strong>Remove Supported Countries:</strong> To remove countries, check the box and provide the countries as a JSON array. If the supported_countries field is missing or equals ["base_countries"], no changes will be made.<br><br><em>Example: <code>["US", "CA"]</code></em><br><br></li>
+        <li><strong>Affiliates:</strong> List the affiliates to update, separated by commas. Leave blank to apply changes to all affiliates.<br><br><em>Example: affiliate1, affiliate2</em></li>
+        <li><strong>LP Data:</strong> Input the JSON object containing affiliate data in the LP (JSON) field.<br><br><em>Example: <code>{"affiliates": {"affiliate1": {"supported_digital_currencies": ["BTC", "ETH"], "supported_countries": ["US", "CA"]}}}</code></em></li>
+        <li><strong>Remove Currencies:</strong> To remove currencies, check the box and enter the currencies as a JSON array.<br><br><em>Example: <code>["BTC", "ETH"]</code></em></li>
+        <li><strong>Add Currencies:</strong> To add currencies, check the box and enter the currencies as a JSON array.<br><br><em>Example: <code>["XRP", "LTC"]</code></em></li>
+        <li><strong>Add Supported Countries:</strong> To add countries, check the box and provide the countries as a JSON array.<br><br><em>Example: <code>["DE", "FR"]</code></em></li>
+        <li><strong>Remove Supported Countries:</strong> To remove countries, check the box and provide the countries as a JSON array. If the supported_countries field is missing or equals ["base_countries"], no changes will be made.<br><br><em>Example: <code>["US", "CA"]</code></em></li>
         <li><strong>Submit:</strong> Click "Update Affiliates" to apply changes. The result will be displayed in the Result section.<br><br></li>
         <li><strong>Copy Result:</strong> Use the "Copy Result" button to copy the updated LP data.</li>
       </ol>
     </div>
-    
-    
-    
   </div>
 
-  <script>
-    // Function to update currencies or countries for specific affiliates
-    const updateAffiliates = (affiliates, affiliateList, updateFunc) => {
-      affiliateList.forEach(key => {
-        if (affiliates.hasOwnProperty(key)) {
-          affiliates[key] = updateFunc(affiliates[key]);
-        }
-      });
-      return affiliates;
-    };
-
-    // Function to remove specified currencies
-    const removeCurrencies = (affiliate, currencies) => {
-      if (affiliate.hasOwnProperty('supported_digital_currencies')) {
-        affiliate.supported_digital_currencies = affiliate.supported_digital_currencies.filter(currency => !currencies.includes(currency));
-      }
-      return affiliate;
-    };
-
-    // Function to add specified currencies
-    const addCurrencies = (affiliate, currencies) => {
-      if (!affiliate.hasOwnProperty('supported_digital_currencies')) {
-        affiliate.supported_digital_currencies = [];
-      }
-      const existingCurrencies = new Set(affiliate.supported_digital_currencies);
-      currencies.forEach(currency => existingCurrencies.add(currency));
-      affiliate.supported_digital_currencies = Array.from(existingCurrencies);
-      return affiliate;
-    };
-
-    // Function to add specified countries to supported countries
-    const addCountries = (affiliate, countries) => {
-      if (!affiliate.hasOwnProperty('supported_countries')) {
-        affiliate.supported_countries = [];
-      }
-      const existingCountries = new Set(affiliate.supported_countries);
-      countries.forEach(country => existingCountries.add(country));
-      affiliate.supported_countries = Array.from(existingCountries);
-      return affiliate;
-    };
-
-    // Function to remove specified countries from supported countries
-    const removeCountries = (affiliate, countries) => {
-      if (affiliate.hasOwnProperty('supported_countries') && JSON.stringify(affiliate.supported_countries) !== JSON.stringify(["base_countries"])) {
-        affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country));
-      }
-      return affiliate;
-    };
-
-    // Function to handle form submission
-    function handleSubmit(event) {
-      event.preventDefault();
-      const lpInput = document.getElementById('lpInput').value;
-      const affiliatesInput = document.getElementById('affiliates').value;
-      const removeChecked = document.getElementById('removeChecked').checked;
-      const addChecked = document.getElementById('addChecked').checked;
-      const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
-      const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
-
-      try {
-        const lp = JSON.parse(lpInput);
-        let affiliates = lp.affiliates;
-        const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
-        const currenciesToRemove = removeChecked ? JSON.parse(document.getElementById('currenciesToRemove').value) : [];
-        const currenciesToAdd = addChecked ? JSON.parse(document.getElementById('currenciesToAdd').value) : [];
-        const countriesToAdd = addCountriesChecked ? JSON.parse(document.getElementById('countriesToAdd').value) : [];
-        const countriesToRemove = removeCountriesChecked ? JSON.parse(document.getElementById('countriesToRemove').value) : [];
-
-        if (removeChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCurrencies(affiliate, currenciesToRemove));
-        }
-        if (addChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCurrencies(affiliate, currenciesToAdd));
-        }
-        if (addCountriesChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCountries(affiliate, countriesToAdd));
-        }
-        if (removeCountriesChecked) {
-          affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCountries(affiliate, countriesToRemove));
-        }
-
-        lp.affiliates = affiliates;
-        document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
-        document.getElementById('copyResult').disabled = false;
-      } catch (e) {
-        document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
-        document.getElementById('copyResult').disabled = true;
-      }
-    }
-
-    // Function to copy result text to clipboard
-    function copyResult() {
-      const resultText = document.getElementById('result').textContent;
-      navigator.clipboard.writeText(resultText).then(() => {
-        alert('Result copied to clipboard!');
-      }).catch(err => {
-        console.error('Failed to copy result:', err);
-        alert('Failed to copy result. Please try again.');
-      });
-    }
-
-    // Function to toggle input fields based on checkbox state
-    function toggleInputFields() {
-  const removeChecked = document.getElementById('removeChecked').checked;
-  const addChecked = document.getElementById('addChecked').checked;
-  const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
-  const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
-  const currenciesToRemoveContainer = document.getElementById('currenciesToRemoveContainer');
-  const currenciesToAddContainer = document.getElementById('currenciesToAddContainer');
-  const countriesToAddContainer = document.getElementById('countriesToAddContainer');
-  const countriesToRemoveContainer = document.getElementById('countriesToRemoveContainer');
-  const updateAffiliatesButton = document.getElementById('updateAffiliates');
-
-  currenciesToRemoveContainer.style.display = removeChecked ? "block" : "none";
-  document.getElementById('currenciesToRemove').disabled = !removeChecked;
-
-  currenciesToAddContainer.style.display = addChecked ? "block" : "none";
-  document.getElementById('currenciesToAdd').disabled = !addChecked;
-
-  countriesToAddContainer.style.display = addCountriesChecked ? "block" : "none";
-  document.getElementById('countriesToAdd').disabled = !addCountriesChecked;
-
-  countriesToRemoveContainer.style.display = removeCountriesChecked ? "block" : "none";
-  document.getElementById('countriesToRemove').disabled = !removeCountriesChecked;
-
-  updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked);
-}
-
-
-    // Initialize input fields and "Update Affiliates" button state
-    toggleInputFields();
-
-    // Modal script
-    var modal = document.getElementById("howToUseModal");
-    var btn = document.getElementById("howToUseBtn");
-    var span = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-  </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
