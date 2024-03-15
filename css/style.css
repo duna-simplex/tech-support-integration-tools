@@ -23,7 +23,7 @@ h1, h2, h3 {
   position: relative; /* Ensure the container has a relative position */
   width: 90%;
   max-width: 800px;
-  background: radial-gradient(circle at center, #9973CC 80%, #CC99FF 20%);
+  background: radial-gradient(circle at center, #9973CC 60%, rgb(180, 144, 227) 10% #CC99FF 10%);
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
