@@ -1,6 +1,6 @@
 body {
   font-family: 'Roboto', Arial, sans-serif;
-  background-color: #CC99FF; /* Softer lilac for background */
+  background: linear-gradient(to top, #CC99FF,#2E2537); /* Softer lilac for background */
   margin: 0;
   padding: 20px;
   display: flex;
