@@ -23,7 +23,7 @@ h1, h2, h3 {
   position: relative; /* Ensure the container has a relative position */
   width: 90%;
   max-width: 800px;
-  background: linear-gradient(to top, #CC99FF, #9973CC);
+  background: linear-gradient(to bottom, #9b77be, #9973CC);
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
