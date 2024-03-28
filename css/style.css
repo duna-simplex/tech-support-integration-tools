@@ -153,6 +153,8 @@ button:hover, input[type="submit"]:hover {
   font-family: Consolas, monospace;
   white-space: pre-wrap;
   word-wrap: break-word;
+  max-height: 300px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .modal {
