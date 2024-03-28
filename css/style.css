@@ -20,21 +20,23 @@ h1, h2, h3 {
 
 /* Container background with darker shade and subtle gradient */
 .container {
-  position: relative; /* Ensure the container has a relative position */
+  position: relative;
   width: 90%;
   max-width: 800px;
-  background: linear-gradient(to bottom, #9b77be, #9973CC);
-  padding: 30px;
+  background: radial-gradient(circle at center, #9973CC 0%, #CC99FF 100%);
+  padding: 50px 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  padding: 50px 50px 30px 30px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
-
 
 .container:hover {
-  transform: scale(1.02);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3); /* Slightly deeper shadow */
+  background-color: #AA88DD; /* Slightly darker background */
 }
+
 
 .how-to-use-btn {
   position: absolute;
