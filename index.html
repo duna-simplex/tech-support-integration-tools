@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <div class="container">
     <button class="how-to-use-btn" id="howToUseBtn">?</button>
@@ -14,6 +16,10 @@
     <form onsubmit="handleSubmit(event)">
       <div class="options-title">Options:</div>
       <div class="options-row">
+        <div class="checkbox-container">
+          <input type="checkbox" id="updateProbabilityChecked" onchange="toggleInputFields()">
+          <label class="option-label" for="updateProbabilityChecked">Update Zero Probabilities to 0.01</label>
+        </div>
         <div class="checkbox-container">
           <input type="checkbox" id="removeChecked" onchange="toggleInputFields()">
           <label class="option-label" for="removeChecked">Remove Currencies</label>
@@ -77,9 +83,10 @@
         <li><strong>Copy Result:</strong> Use the "Copy Result" button to copy the updated LP data.</li>
       </ol>
     </div>
-    
+
   </div>
 
   <script src="js/script.js"></script>
 </body>
+
 </html>
