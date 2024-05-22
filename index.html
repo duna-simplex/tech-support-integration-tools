@@ -11,32 +11,34 @@
 
 <body>
   <div class="container">
-    <button class="how-to-use-btn" id="howToUseBtn">?</button>
+    <button class="how-to-use-btn" id="howToUseBtn" aria-label="How to Use">?</button>
     <h1>LP Affiliates Manager</h1>
     <form onsubmit="handleSubmit(event)">
-      <div class="options-title">Options:</div>
-      <div class="options-row">
-        <div class="checkbox-container">
-          <input type="checkbox" id="updateProbabilityChecked" onchange="toggleInputFields()">
-          <label class="option-label" for="updateProbabilityChecked">Update Zero Probabilities to 0.01</label>
+      <fieldset>
+        <legend class="options-title">Options:</legend>
+        <div class="options-row">
+          <div class="checkbox-container">
+            <input type="checkbox" id="updateProbabilityChecked" onchange="toggleInputFields()">
+            <label class="option-label" for="updateProbabilityChecked">Update Zero Probabilities to 0.01</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="removeChecked" onchange="toggleInputFields()">
+            <label class="option-label" for="removeChecked">Remove Currencies</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="addChecked" onchange="toggleInputFields()">
+            <label class="option-label" for="addChecked">Add Currencies</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="addCountriesChecked" onchange="toggleInputFields()">
+            <label class="option-label" for="addCountriesChecked">Add Supported Countries</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="removeCountriesChecked" onchange="toggleInputFields()">
+            <label class="option-label" for="removeCountriesChecked">Remove Supported Countries</label>
+          </div>
         </div>
-        <div class="checkbox-container">
-          <input type="checkbox" id="removeChecked" onchange="toggleInputFields()">
-          <label class="option-label" for="removeChecked">Remove Currencies</label>
-        </div>
-        <div class="checkbox-container">
-          <input type="checkbox" id="addChecked" onchange="toggleInputFields()">
-          <label class="option-label" for="addChecked">Add Currencies</label>
-        </div>
-        <div class="checkbox-container">
-          <input type="checkbox" id="addCountriesChecked" onchange="toggleInputFields()">
-          <label class="option-label" for="addCountriesChecked">Add Supported Countries</label>
-        </div>
-        <div class="checkbox-container">
-          <input type="checkbox" id="removeCountriesChecked" onchange="toggleInputFields()">
-          <label class="option-label" for="removeCountriesChecked">Remove Supported Countries</label>
-        </div>
-      </div>
+      </fieldset>
       <div class="options-row">
         <label class="option-label" for="affiliates">Affiliates (comma separated):</label><br>
         <input type="text" id="affiliates"><br><br>
@@ -45,19 +47,19 @@
       <textarea id="lpInput" rows="10" cols="50"></textarea><br>
       <div id="currenciesToRemoveContainer" style="display:none;">
         <label for="currenciesToRemove">Currencies to Remove (JSON Array):</label><br>
-        <textarea id="currenciesToRemove" rows="3" cols="50" disabled></textarea><br><br>
+        <textarea id="currenciesToRemove" rows="3" cols="50"></textarea><br><br>
       </div>
       <div id="currenciesToAddContainer" style="display:none;">
         <label for="currenciesToAdd">Currencies to Add (JSON Array):</label><br>
-        <textarea id="currenciesToAdd" rows="3" cols="50" disabled></textarea><br><br>
+        <textarea id="currenciesToAdd" rows="3" cols="50"></textarea><br><br>
       </div>
       <div id="countriesToAddContainer" style="display:none;">
         <label for="countriesToAdd">Countries to Add (JSON Array):</label><br>
-        <textarea id="countriesToAdd" rows="3" cols="50" disabled></textarea><br><br>
+        <textarea id="countriesToAdd" rows="3" cols="50"></textarea><br><br>
       </div>
       <div id="countriesToRemoveContainer" style="display:none;">
         <label for="countriesToRemove">Countries to Remove (JSON Array):</label><br>
-        <textarea id="countriesToRemove" rows="3" cols="50" disabled></textarea><br><br>
+        <textarea id="countriesToRemove" rows="3" cols="50"></textarea><br><br>
       </div>
       <input type="submit" value="Update Affiliates" id="updateAffiliates" disabled>
     </form>

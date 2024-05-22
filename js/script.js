@@ -1,4 +1,3 @@
-   
 // Function to update currencies or countries for specific affiliates
 const updateAffiliates = (affiliates, affiliateList, updateFunc) => {
   affiliateList.forEach(key => {
@@ -11,15 +10,16 @@ const updateAffiliates = (affiliates, affiliateList, updateFunc) => {
 
 // Function to update the probability for specified affiliates
 const updateProbabilities = (affiliates, affiliateList) => {
-affiliateList.forEach(key => {
-if (affiliates.hasOwnProperty(key) && affiliates[key].hasOwnProperty('probability')) {
-  if (affiliates[key].probability === 0) {
-    affiliates[key].probability = 0.01;
-  }
-}
-});
-return affiliates;
+  affiliateList.forEach(key => {
+    if (affiliates.hasOwnProperty(key) && affiliates[key].hasOwnProperty('probability')) {
+      if (affiliates[key].probability === 0) {
+        affiliates[key].probability = 0.01;
+      }
+    }
+  });
+  return affiliates;
 };
+
 // Function to remove specified currencies
 const removeCurrencies = (affiliate, currencies) => {
   if (affiliate.hasOwnProperty('supported_digital_currencies')) {
@@ -60,26 +60,27 @@ const removeCountries = (affiliate, countries) => {
 
 // Function to handle form submission
 function handleSubmit(event) {
-event.preventDefault();
-const lpInput = document.getElementById('lpInput').value;
-const affiliatesInput = document.getElementById('affiliates').value;
+  event.preventDefault();
+  const lpInput = document.getElementById('lpInput').value;
+  const affiliatesInput = document.getElementById('affiliates').value;
 
-try {
-const lp = JSON.parse(lpInput);
-let affiliates = lp.affiliates;
-const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
+  try {
+    const lp = JSON.parse(lpInput);
+    let affiliates = lp.affiliates;
+    const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
 
-// Update probabilities if specified
-affiliates = updateProbabilities(affiliates, affiliateList);
+    // Update probabilities if specified
+    affiliates = updateProbabilities(affiliates, affiliateList);
 
-lp.affiliates = affiliates;
-document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
-document.getElementById('copyResult').disabled = false;
-} catch (e) {
-document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
-document.getElementById('copyResult').disabled = true;
+    lp.affiliates = affiliates;
+    document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
+    document.getElementById('copyResult').disabled = false;
+  } catch (e) {
+    document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
+    document.getElementById('copyResult').disabled = true;
+  }
 }
-}
+
 // Function to copy result text to clipboard
 function copyResult() {
   const resultText = document.getElementById('result').textContent;
@@ -93,38 +94,33 @@ function copyResult() {
 
 // Function to toggle input fields based on checkbox state 
 function toggleInputFields() {
-const removeChecked = document.getElementById('removeChecked').checked;
-const addChecked = document.getElementById('addChecked').checked;
-const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
-const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
-const updateProbabilityChecked = document.getElementById('updateProbabilityChecked').checked; // New checkbox
+  const removeChecked = document.getElementById('removeChecked').checked;
+  const addChecked = document.getElementById('addChecked').checked;
+  const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
+  const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
+  const updateProbabilityChecked = document.getElementById('updateProbabilityChecked').checked;
 
-const currenciesToRemoveContainer = document.getElementById('currenciesToRemoveContainer');
-const currenciesToAddContainer = document.getElementById('currenciesToAddContainer');
-const countriesToAddContainer = document.getElementById('countriesToAddContainer');
-const countriesToRemoveContainer = document.getElementById('countriesToRemoveContainer');
-const updateAffiliatesButton = document.getElementById('updateAffiliates');
+  const currenciesToRemoveContainer = document.getElementById('currenciesToRemoveContainer');
+  const currenciesToAddContainer = document.getElementById('currenciesToAddContainer');
+  const countriesToAddContainer = document.getElementById('countriesToAddContainer');
+  const countriesToRemoveContainer = document.getElementById('countriesToRemoveContainer');
+  const updateAffiliatesButton = document.getElementById('updateAffiliates');
 
-currenciesToRemoveContainer.style.display = removeChecked ? "block" : "none";
-currenciesToAddContainer.style.display = addChecked ? "block" : "none";
-countriesToAddContainer.style.display = addCountriesChecked ? "block" : "none";
-countriesToRemoveContainer.style.display = removeCountriesChecked ? "block" : "none";
+  currenciesToRemoveContainer.style.display = removeChecked ? "block" : "none";
+  currenciesToAddContainer.style.display = addChecked ? "block" : "none";
+  countriesToAddContainer.style.display = addCountriesChecked ? "block" : "none";
+  countriesToRemoveContainer.style.display = removeCountriesChecked ? "block" : "none";
 
-// Here you might have additional elements to show/hide based on the updateProbabilityChecked state
-// For example, showing a warning or note related to zero probabilities being updated
-// document.getElementById('someElement').style.display = updateProbabilityChecked ? "block" : "none";
-
-updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked || updateProbabilityChecked);
+  updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked || updateProbabilityChecked);
 }
-
 
 // Initialize input fields and "Update Affiliates" button state
 toggleInputFields();
 
 // Modal script
-var modal = document.getElementById("howToUseModal");
-var btn = document.getElementById("howToUseBtn");
-var span = document.getElementsByClassName("close")[0];
+const modal = document.getElementById("howToUseModal");
+const btn = document.getElementById("howToUseBtn");
+const span = document.getElementsByClassName("close")[0];
 
 btn.onclick = function() {
   modal.style.display = "block";
