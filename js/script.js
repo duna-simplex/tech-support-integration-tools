@@ -1,5 +1,9 @@
 // Function to update currencies or countries for specific affiliates
 const updateAffiliates = (affiliates, affiliateList, updateFunc) => {
+  // If affiliateList is empty, include all affiliates with probability > 0
+  if (affiliateList.length === 0) {
+    affiliateList = Object.keys(affiliates).filter(key => affiliates[key].hasOwnProperty('probability') && affiliates[key].probability > 0);
+  }
   affiliateList.forEach(key => {
     if (affiliates.hasOwnProperty(key)) {
       affiliates[key] = updateFunc(affiliates[key]);
@@ -72,7 +76,7 @@ function handleSubmit(event) {
   try {
     const lp = JSON.parse(lpInput);
     let affiliates = lp.affiliates;
-    const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
+    const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : [];
 
     // Update probabilities if specified
     if (document.getElementById('updateProbabilityChecked').checked) {
