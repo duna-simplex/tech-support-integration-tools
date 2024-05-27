@@ -53,7 +53,7 @@ const addCountries = (affiliate, countries) => {
 // Function to remove specified countries from supported countries
 const removeCountries = (affiliate, countries) => {
   if (affiliate.hasOwnProperty('supported_countries') && JSON.stringify(affiliate.supported_countries) !== JSON.stringify(["base_countries"])) {
-    affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country));
+    affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country    ));
   }
   return affiliate;
 };
@@ -64,13 +64,44 @@ function handleSubmit(event) {
   const lpInput = document.getElementById('lpInput').value;
   const affiliatesInput = document.getElementById('affiliates').value;
 
+  const removeChecked = document.getElementById('removeChecked').checked;
+  const addChecked = document.getElementById('addChecked').checked;
+  const addCountriesChecked = document.getElementById('addCountriesChecked').checked;
+  const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
+
   try {
     const lp = JSON.parse(lpInput);
     let affiliates = lp.affiliates;
     const affiliateList = affiliatesInput ? affiliatesInput.split(',').map(name => name.trim()) : Object.keys(affiliates);
 
     // Update probabilities if specified
-    affiliates = updateProbabilities(affiliates, affiliateList);
+    if (document.getElementById('updateProbabilityChecked').checked) {
+      affiliates = updateProbabilities(affiliates, affiliateList);
+    }
+
+    // Remove currencies if specified
+    if (removeChecked) {
+      const currenciesToRemove = JSON.parse(document.getElementById('currenciesToRemove').value);
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCurrencies(affiliate, currenciesToRemove));
+    }
+
+    // Add currencies if specified
+    if (addChecked) {
+      const currenciesToAdd = JSON.parse(document.getElementById('currenciesToAdd').value);
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCurrencies(affiliate, currenciesToAdd));
+    }
+
+    // Add countries if specified
+    if (addCountriesChecked) {
+      const countriesToAdd = JSON.parse(document.getElementById('countriesToAdd').value);
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => addCountries(affiliate, countriesToAdd));
+    }
+
+    // Remove countries if specified
+    if (removeCountriesChecked) {
+      const countriesToRemove = JSON.parse(document.getElementById('countriesToRemove').value);
+      affiliates = updateAffiliates(affiliates, affiliateList, affiliate => removeCountries(affiliate, countriesToRemove));
+    }
 
     lp.affiliates = affiliates;
     document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
@@ -92,7 +123,7 @@ function copyResult() {
   });
 }
 
-// Function to toggle input fields based on checkbox state 
+// Function to toggle input fields based on checkbox state
 function toggleInputFields() {
   const removeChecked = document.getElementById('removeChecked').checked;
   const addChecked = document.getElementById('addChecked').checked;
@@ -100,18 +131,12 @@ function toggleInputFields() {
   const removeCountriesChecked = document.getElementById('removeCountriesChecked').checked;
   const updateProbabilityChecked = document.getElementById('updateProbabilityChecked').checked;
 
-  const currenciesToRemoveContainer = document.getElementById('currenciesToRemoveContainer');
-  const currenciesToAddContainer = document.getElementById('currenciesToAddContainer');
-  const countriesToAddContainer = document.getElementById('countriesToAddContainer');
-  const countriesToRemoveContainer = document.getElementById('countriesToRemoveContainer');
-  const updateAffiliatesButton = document.getElementById('updateAffiliates');
+  document.getElementById('currenciesToRemoveContainer').style.display = removeChecked ? "block" : "none";
+  document.getElementById('currenciesToAddContainer').style.display = addChecked ? "block" : "none";
+  document.getElementById('countriesToAddContainer').style.display = addCountriesChecked ? "block" : "none";
+  document.getElementById('countriesToRemoveContainer').style.display = removeCountriesChecked ? "block" : "none";
 
-  currenciesToRemoveContainer.style.display = removeChecked ? "block" : "none";
-  currenciesToAddContainer.style.display = addChecked ? "block" : "none";
-  countriesToAddContainer.style.display = addCountriesChecked ? "block" : "none";
-  countriesToRemoveContainer.style.display = removeCountriesChecked ? "block" : "none";
-
-  updateAffiliatesButton.disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked || updateProbabilityChecked);
+  document.getElementById('updateAffiliates').disabled = !(removeChecked || addChecked || addCountriesChecked || removeCountriesChecked || updateProbabilityChecked);
 }
 
 // Initialize input fields and "Update Affiliates" button state
@@ -135,3 +160,4 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
