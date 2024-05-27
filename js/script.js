@@ -53,7 +53,7 @@ const addCountries = (affiliate, countries) => {
 // Function to remove specified countries from supported countries
 const removeCountries = (affiliate, countries) => {
   if (affiliate.hasOwnProperty('supported_countries') && JSON.stringify(affiliate.supported_countries) !== JSON.stringify(["base_countries"])) {
-    affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country    ));
+    affiliate.supported_countries = affiliate.supported_countries.filter(country => !countries.includes(country));
   }
   return affiliate;
 };
@@ -107,6 +107,7 @@ function handleSubmit(event) {
     document.getElementById('result').textContent = JSON.stringify(lp, null, 2);
     document.getElementById('copyResult').disabled = false;
   } catch (e) {
+    console.error('Error processing JSON:', e);
     document.getElementById('result').textContent = 'Invalid input. Please enter valid JSON for all fields.';
     document.getElementById('copyResult').disabled = true;
   }
@@ -160,4 +161,3 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-
